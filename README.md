@@ -1,8 +1,7 @@
-# ForSilver
 
- Android Apps
-=========================
 
- - Android, R Studio
+ # Android Apps
+
+ - Android Studio, R Studio
  - Google, Naver API
- 
+ - MySQL 
