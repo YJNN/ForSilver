@@ -1,7 +1,7 @@
 # ForSilver
-Community Leisure app for Silver generation
 ====================================
-  Tool
+  Android Apps
+  
  - Android, R Studio
  - Google, Naver API
  
