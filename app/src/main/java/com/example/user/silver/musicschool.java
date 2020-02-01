@@ -17,26 +17,18 @@ public class musicschool extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.musicschool);
         gps = new GpsInfo(musicschool.this);
-        // GPS 사용유무 가져오기
         if (gps.isGetLocation()) {
 
         } else {
-            // GPS 를 사용할수 없으므로
             gps.showSettingsAlert();
         }
-
-
-        //위치검색 버튼
         Button button =(Button) findViewById(R.id.naver);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(musicschool.this, musicschoolnaver.class);
                 startActivity(intent);
             }
         });
-
-
     }
 }
