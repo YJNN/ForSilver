@@ -43,9 +43,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 
-
-
-
 /**
  * Created by user on 2016-11-13.
  */
@@ -63,40 +60,27 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
     HashMap<String, String> mapy;
     HashMap<String, String> address;
     HashMap<String, String> phone;
-    /*
-    String mapx=null;
-    String mapy=null;
-    String address=null;
-    String phone=null;
-    */
-    int nowlisttouch=0;///////현재 리스트뷰에서 클릭된 리스트
 
-
-    ////////////다음지도
+    int nowlisttouch=0;
     net.daum.mf.map.api.MapView  mapView=null;
     private String daumkey="d0b79feb7431f90fccb82f7251923db0";
-    /////////////////////////////
-    //////////////네이버검색api
+    
     String tagName="";
     boolean isItemTag;
-    ////////////////
-    //////////gps
     private GpsInfo gps;
     Double mylat=0.0,mylon=0.0;
     int init=0;
-
-
+    
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dancesportsnaver);
-        //////////다음지도
         mapView = new net.daum.mf.map.api.MapView(dancesportsnaver.this);
         mapView.setDaumMapApiKey(daumkey);
 
         ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.dancesportsnavermap);
         mapViewContainer.addView(mapView);
         mapView.setMapViewEventListener(this);
-        /////////////////////////////////////////////////////////
+
         list = (ListView)findViewById(R.id.dancelistView);
         locList = new ArrayList<HashMap<String, String>>();
         names=new ArrayList<String>();
@@ -108,21 +92,14 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
 
         list.setOnItemClickListener(onClickListItem);
         list.setItemChecked(0, true);
-        ////////////////////////////////나의 좌표가지고 오기
         gps = new GpsInfo(dancesportsnaver.this);
-        // GPS 사용유무 가져오기
         if (gps.isGetLocation()) {
             mylat = gps.getLatitude();
             mylon = gps.getLongitude();
 
         } else {
-            // GPS 를 사용할수 없으므로
             gps.showSettingsAlert();
         }
-
-
-        /////////////////////////
-        //상세정보 버튼
         Button cptdetailbutton =(Button) findViewById(R.id.dadetailbutton);
         cptdetailbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,13 +107,9 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
 
                 if (address.get(names.get(nowlisttouch)) == null) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(dancesportsnaver.this);
-
-                    // dialog.setTitle("상세주소" + mapx.size() + "R" + mapy.size() + "R" + mapx.get(0) + "R" + mapy.get(0));
                     dialog.setTitle("상세주소");
 
                     dialog.setMessage("주소:" + "경기도 성남시 분당구 구미동 185-2" + "\n" + "전화번호:" + "031-8022-7111");
-
-                    // Cancel 버튼 이벤트
                     dialog.setNegativeButton("닫기", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
@@ -145,28 +118,17 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
                     dialog.show();
                 } else {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(dancesportsnaver.this);
-
-                    // dialog.setTitle("상세주소" + mapx.size() + "R" + mapy.size() + "R" + mapx.get(0) + "R" + mapy.get(0));
                     dialog.setTitle("상세주소");
-
                     dialog.setMessage("주소:" + address.get(names.get(nowlisttouch)) + "\n" + "전화번호:" + phone.get(names.get(nowlisttouch)));
-
-                    // Cancel 버튼 이벤트
                     dialog.setNegativeButton("닫기", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                         }
                     });
                     dialog.show();
-
                 }
-
             }
         });
-
-
-        /////////////////////////////구글 네비게이션
-        //노래교실버튼
         Button musicshool =(Button) findViewById(R.id.danavigationbutton);
         musicshool.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,10 +140,6 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
                 startActivity(mapIntent);
             }
         });
-
-
-        ////////////////////////다음 길찾기
-        //노래교실버튼
         Button findload =(Button) findViewById(R.id.dafindload);
         findload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,8 +148,6 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
                     if (address.get(names.get(nowlisttouch)) == null) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("daummaps://route?sp="+mylat+","+mylon+"&ep=37.2689374, 127.0023482&by=CAR"));
                         startActivity(intent);
-
-
                     } else {
                         int i=Integer.parseInt(mapx.get(names.get(nowlisttouch)).trim());
                         int i2=Integer.parseInt(mapy.get(names.get(nowlisttouch)).trim());
@@ -200,36 +156,15 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
                         Double lat2 =Double.parseDouble(String.format("%.8f", oGeo.getY()));
                         Double lng2 =Double.parseDouble(String.format("%.8f", oGeo.getX()));
 
-                    /*Toast toast = Toast.makeText(getApplicationContext(),
-                            "토스트창에 출력될 문자"+mylat+mylon+lat2+lng2, Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                     */
-
-
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("daummaps://route?sp="+mylat+","+mylon+"&ep="+lat2+","+lng2+"&by=CAR"));
                         startActivity(intent);
-
                     }
                 }catch (Exception e){
-
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+"net.daum.android.map"));
                     startActivity(intent);
-
                 }
-
-
-
             }
         });
-
-
-
-
-
-
-
-        ///지도보기 버튼
         Button musicshool2 =(Button) findViewById(R.id.dashowmap);
         musicshool2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,21 +176,17 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
                     GeoPoint oGeo = GeoTrans.convert(GeoTrans.KATEC, GeoTrans.GEO, oKA);
                     Double lat =Double.parseDouble(String.format("%.8f", oGeo.getY()));
                     Double lng =Double.parseDouble(String.format("%.8f", oGeo.getX()));
-
-
                     MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(lat,lng);
                     mapView.setMapCenterPointAndZoomLevel(mapPoint, 1, true);
-                    //마커 생성
                     MapPOIItem marker = new MapPOIItem();
-                    marker.setItemName(names.get(nowlisttouch));////말풍성이름
+                    marker.setItemName(names.get(nowlisttouch));
 
                     marker.setTag(0);
                     marker.setMapPoint(mapPoint);
-                    marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);  //기본으로 제공하는 BluePin 마커 모양
-                    marker.setCustomImageResourceId(R.drawable.ic_map_arrive); // 마커 이미지.
-                    marker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
+                    marker.setMarkerType(MapPOIItem.MarkerType.CustomImage); 
+                    marker.setCustomImageResourceId(R.drawable.ic_map_arrive); 
+                    marker.setCustomImageAutoscale(false); /\
                     marker.setCustomImageAnchor(0.5f, 0.5f);
-                    //마커 추가
                     mapView.addPOIItem(marker);
                     mapView.selectPOIItem(marker, true);
                 }catch (NullPointerException ex){
@@ -264,17 +195,12 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
 
             }
         });
-
-
     }
-    // 아이템 터치 이벤트
     private AdapterView.OnItemClickListener onClickListItem = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
             nowlisttouch=arg2;
             naversearchinfo(names.get(nowlisttouch));
-
-
         }
     };
 
@@ -359,19 +285,16 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
 
     @Override
     public void onMapViewInitialized(MapView mapView) {
-//지도 이동
         MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(37.2689374, 127.0023482);
         mapView.setMapCenterPointAndZoomLevel(mapPoint, 1, true);
-        //마커 생성
         MapPOIItem marker = new MapPOIItem();
-        marker.setItemName("무브댄스학원");////말풍성이름
+        marker.setItemName("무브댄스학원");
         marker.setTag(1);
         marker.setMapPoint(mapPoint);
-        marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);  //기본으로 제공하는 BluePin 마커 모양
-        marker.setCustomImageResourceId(R.drawable.ic_map_arrive); // 마커 이미지.
-        marker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
+        marker.setMarkerType(MapPOIItem.MarkerType.CustomImage);  
+        marker.setCustomImageResourceId(R.drawable.ic_map_arrive); 
+        marker.setCustomImageAutoscale(false); 
         marker.setCustomImageAnchor(0.5f, 0.5f);
-        //마커 추가
         mapView.addPOIItem(marker);
         mapView.selectPOIItem(marker, true);
     }
@@ -416,10 +339,6 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
 
     }
 
-
-
-
-    //////네이버 검색api
     public void naversearchinfo(String query){
 
         String convertQuery=null;
@@ -436,7 +355,6 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
             e.printStackTrace();
 
         }
-
         final String defaultUrl = "https://openapi.naver.com/v1/search/local.xml?display=1&query=";
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -450,73 +368,43 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
                 String text = new String(arg2);
                 // textView.append(text);
                 try {
-                    //XmlPullParser를 사용하기 위해서
                     XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-
-                    //네임스페이스 사용여부
                     factory.setNamespaceAware(true);
-                    //xml문서를 이벤트를 이용해서 데이터를 추출해주는 객체
                     XmlPullParser xpp = factory.newPullParser();
-
-                    //XmlPullParser xml데이터를 저장
-                    //xpp.setInput(in, "euc-kr");
                     xpp.setInput(new StringReader(text));
-                    //이벤트 저장할 변수선언
+           
                     int eventType = xpp.getEventType();
-
                     while (eventType != XmlPullParser.END_DOCUMENT) {
-                        if (eventType == XmlPullParser.START_TAG) { //시작 태그를 만났을때.
-                            //태그명을 저장
+                        if (eventType == XmlPullParser.START_TAG) {                            
                             tagName = xpp.getName();
                             if (tagName.equals("item")) isItemTag = true;
-
-                        } else if (eventType == XmlPullParser.TEXT) { //내용
-                            // tagName에 저장된 태그명 title태그일때 제목을 저장
+                        } else if (eventType == XmlPullParser.TEXT) { 
                             if (isItemTag && tagName.equals("mapx")) {
                                 mapx.put(names.get(nowlisttouch),xpp.getText());
-
-
                             }
-                            //기사의 내용을 저장
                             if (isItemTag && tagName.equals("mapy")) {
                                 mapy.put(names.get(nowlisttouch), xpp.getText());
-
                             }
                             if (isItemTag && tagName.equals("address")) {
                                 // address.add(nowlisttouch,xpp.getText());
                                 address.put(names.get(nowlisttouch),xpp.getText());
-
                             }
                             if (isItemTag && tagName.equals("telephone")) {
                                 //phone.add(nowlisttouch,xpp.getText());
                                 phone.put(names.get(nowlisttouch), xpp.getText());
-
                             }
-
-
-
-                        } else if (eventType == XmlPullParser.END_TAG) { //닫는 태그를 만났을때
-                            //태그명을 저장
+                        } else if (eventType == XmlPullParser.END_TAG) { /
                             tagName = xpp.getName();
-
                             if (tagName.equals("item")) {
-
-                                isItemTag = false; //초기화
-
+                                isItemTag = false; 
                             }
-
-
                         }
-
-                        eventType = xpp.next(); //다음 이벤트 타입
+                        eventType = xpp.next();
                     }
 
                 } catch (Exception e) {
-
-                    Log.e("NewsApp", "예외발생 :" + e.getMessage());
+                    Log.e("NewsApp", e.getMessage());
                 }
-
-
             }
 
             @Override
@@ -524,6 +412,5 @@ public class dancesportsnaver  extends AppCompatActivity implements MapView.MapV
 
             }
         });
-
     }
 }
