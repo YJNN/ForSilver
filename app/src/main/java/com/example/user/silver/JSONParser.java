@@ -58,21 +58,11 @@ public class JSONParser {
                 DefaultHttpClient httpClient = new DefaultHttpClient();
                 String paramString = URLEncodedUtils.format(params, "utf-8");
                 url += "?" + paramString;
-                Log.d("여기까지온다","여기까지온다");
 
                 HttpGet httpGet = new HttpGet(url);
-                Log.d("여기까지온다2","여기까지온다2");
-
                 HttpResponse httpResponse = httpClient.execute(httpGet);
-                Log.d("여기까지온다3","여기까지온다3");
-
                 HttpEntity httpEntity = httpResponse.getEntity();
-                Log.d("여기까지온다4","여기까지온다4");
-
                 is = httpEntity.getContent();
-                Log.d("여기까지온다5","여기까지온다5");
-
-
             }
 
         } catch (UnsupportedEncodingException e) {
