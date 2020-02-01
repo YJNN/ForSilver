@@ -10,18 +10,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-
-
 public class naversearch extends Activity{
-
-
-
-
-
-
-
-
-
-
 
 }
