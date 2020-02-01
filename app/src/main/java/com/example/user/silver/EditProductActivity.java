@@ -53,24 +53,16 @@ public class EditProductActivity extends Activity {
     private static final String TAG_PRICE = "title";
     private static final String TAG_DESCRIPTION = "content";
     private static final String TAG_PRI = "pri";
-
-
-
-
+    
     String name;
     String title;
     String content;
     String prikey;
-
-
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_product);
-
-
-
         // getting product details from intent
         Intent i = getIntent();
 
@@ -87,35 +79,7 @@ public class EditProductActivity extends Activity {
         // save button
         btnSave = (Button) findViewById(R.id.btnSave);
         btnDelete = (Button) findViewById(R.id.Delete);
-
-        /*
-        // save button click event
-        btnSave.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                // starting background task to update product
-             //   new SaveProductDetails().execute();
-            }
-        });
-         */
-      /*
-        // Delete button click event
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // deleting product in background thread
-                Log.d("ㄴㄴㄴㄴㄴㄴㄴㄴㄴ", "삭제버튼들어옴");
-                if(prikey== edit.toString())
-                {
-                    Log.d(edit.toString(), "삭제버튼들어옴");
-                    new DeleteProduct().execute();
-                }
-
-            }
-        });
-     */
+ 
     }
 
     public void delete(View v){
@@ -123,18 +87,10 @@ public class EditProductActivity extends Activity {
         String tmp="ss";
         EditText tmp2=(EditText)findViewById(R.id.PRIKEY);
         tmp=tmp2.getText().toString();
-        Log.d("ㄴㄴㄴㄴㄴㄴㄴㄴㄴ", "삭제버튼들어옴");
-        Log.d(prikey, "삭제버튼들어옴");
-        Log.d(prikey, "삭제버튼들어옴444");
-        Log.d(tmp, "삭제버튼들어옴444");
         if(prikey.equals(tmp))
         {
-            Log.d(tmp, "삭제버튼들어옴555555555");
             new DeleteProduct().execute();
-
         }
-
-
     }
 
     public void update(View v){
@@ -142,21 +98,7 @@ public class EditProductActivity extends Activity {
         String tmp="ss";
         EditText tmp2=(EditText)findViewById(R.id.PRIKEY);
         tmp=tmp2.getText().toString();
-        Log.d("ㄴㄴㄴㄴㄴㄴㄴㄴㄴ", "수정버튼들어옴");
-        Log.d(prikey, "수정버튼들어옴");
-        Log.d(prikey, "수정버튼들어옴444");
-        Log.d(tmp, "수정버튼들어옴444");
         new SaveProductDetails().execute();
-
-        /*
-        if(prikey.equals(tmp))
-        {
-            Log.d(tmp, "수정버튼들어옴555555555");
-            new SaveProductDetails().execute();
-
-        }
-        */
-
     }
 
     /**
@@ -215,9 +157,6 @@ public class EditProductActivity extends Activity {
 
             return product;
         }
-
-
-
         /**
          * After completing background task Dismiss the progress dialog
          * **/
@@ -253,13 +192,6 @@ public class EditProductActivity extends Activity {
             pDialog.dismiss();*/
         }
     }
-
-
-
-
-
-
-
     /**
      * Background Async Task to  Save product Details
      * */
@@ -281,35 +213,23 @@ public class EditProductActivity extends Activity {
         /**
          * Saving product
          * */
-
-
-
-
         protected String doInBackground(String... args) {
 
             // getting updated data from EditTexts
-
-            Log.d("update", pid+name+title+content);
-            Log.d("update", "수정 php2");
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair(TAG_PID, pid));
             params.add(new BasicNameValuePair(TAG_NAME, name));
             params.add(new BasicNameValuePair(TAG_PRICE, title));
             params.add(new BasicNameValuePair(TAG_DESCRIPTION, content));
-            Log.d("update", "수정 php3"+name+title+content);
             // sending modified data through http request
             // Notice that update product url accepts POST method
             JSONObject json = jsonParser.makeHttpRequest(url_update_product,
                     "POST", params);
-            Log.d("update", "수정 php4");
             // check json success tag
             try {
                 int success = json.getInt(TAG_SUCCESS);
-                Log.d("update", "수정 php5"+success);
-
                 if (success == 1) {
-                    Log.d("update", "수정 php6");
                     // successfully updated
                     Intent i = getIntent();
                     // send result code 100 to notify about product update
@@ -334,12 +254,6 @@ public class EditProductActivity extends Activity {
             pDialog.dismiss();
         }
     }
-
-
-
-
-
-
 
     /*****************************************************************
      * Background Async Task to Delete Product
@@ -367,7 +281,6 @@ public class EditProductActivity extends Activity {
             // Check for success tag
             int success;
             try {
-                Log.d("Delete Product", "지우기 php");
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
                 params.add(new BasicNameValuePair("pid", pid));
