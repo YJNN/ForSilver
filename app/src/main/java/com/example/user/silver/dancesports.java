@@ -17,17 +17,11 @@ public class dancesports extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dancesports);
         gps = new GpsInfo(dancesports.this);
-        // GPS 사용유무 가져오기
         if (gps.isGetLocation()) {
 
         } else {
-            // GPS 를 사용할수 없으므로
             gps.showSettingsAlert();
         }
-
-
-
-        //위치검색 버튼
         Button button =(Button) findViewById(R.id.naver);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,9 +31,5 @@ public class dancesports extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
-
     }
-
-
-
 }
