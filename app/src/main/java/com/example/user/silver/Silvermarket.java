@@ -17,9 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-/**
- * Created by user on 2016-12-11.
- */
+
 public class Silvermarket extends Activity {
 
     Handler handler = new Handler();
@@ -61,13 +59,12 @@ public class Silvermarket extends Activity {
                 try {
                     URL url = new URL("http://202.30.23.51/~sap16t7/adsite.html");
                     HttpURLConnection conn =
-                            (HttpURLConnection)url.openConnection();// 접속
+                            (HttpURLConnection)url.openConnection();
                     if (conn != null) {
                         conn.setConnectTimeout(2000);
                         conn.setUseCaches(false);
                         if (conn.getResponseCode()
                                 ==HttpURLConnection.HTTP_OK){
-                            //    데이터 읽기
                             BufferedReader br
                                     = new BufferedReader(new InputStreamReader
                                     (conn.getInputStream(),"euc-kr"));//"utf-8"
@@ -76,12 +73,10 @@ public class Silvermarket extends Activity {
                                 if (line == null) break;
                                 sb.append(line+"\n");
                             }
-                            br.close(); // 스트림 해제
+                            br.close();
                         }
-                        conn.disconnect(); // 연결 끊기
+                        conn.disconnect();
                     }
-                    // 값을 출력하기
-                    Log.d("test", sb.toString());
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -101,8 +96,6 @@ public class Silvermarket extends Activity {
 
                             //         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(realurl2));
                             //         startActivity(intent);
-
-
                         }
                     });
                 } catch (Exception e) {
@@ -111,18 +104,12 @@ public class Silvermarket extends Activity {
             }
         });
 
-        t1.start(); // 쓰레드 시작
-
-
-
-
-        //////////////제휴 이미지
+        t1.start();
         Thread t = new Thread(new Runnable() {
             @Override
-            public void run() {    // 오래 거릴 작업을 구현한다
+            public void run() {  
                 // TODO Auto-generated method stub
                 try{
-                    // 걍 외우는게 좋다
                     final ImageView iv = (ImageView)findViewById(R.id.ad);
                     URL url = new URL("http://202.30.23.51/~sap16t7/ad.PNG");
                     InputStream is = url.openStream();
@@ -130,25 +117,17 @@ public class Silvermarket extends Activity {
                     handler.post(new Runnable() {
 
                         @Override
-                        public void run() {  // 화면에 그려줄 작업
+                        public void run() {  
                             iv.setImageBitmap(bm);
                         }
                     });
-                    iv.setImageBitmap(bm); //비트맵 객체로 보여주기
+                    iv.setImageBitmap(bm); 
                 } catch(Exception e){
 
                 }
 
             }
         });
-
         t.start();
-
     }
-
-
-
-
-
-
 }
