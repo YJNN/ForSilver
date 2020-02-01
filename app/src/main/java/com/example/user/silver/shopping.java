@@ -28,7 +28,6 @@ import com.hhdd.messi.event.DaumEventListener;
 import com.hhdd.messi.daum.object.shopping.SearchObject;
 
 public class shopping extends Activity implements DaumEventListener.OnShoppingSearchListener {
-
     ListView list;
     ArrayList<String> ids2;
     @Override
@@ -41,7 +40,6 @@ public class shopping extends Activity implements DaumEventListener.OnShoppingSe
         open_api.setShoppingSearchListener(this);
 
         list = (ListView)findViewById(R.id.lv1);
-
 
         Button btn = (Button) findViewById(R.id.bt1);
         btn.setOnClickListener(new OnClickListener(){
@@ -59,10 +57,8 @@ public class shopping extends Activity implements DaumEventListener.OnShoppingSe
                 String url ="http://shopping.daum.net/product/"+ids2.get(position);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 startActivity(intent);
-
             }
         });
-
     }
 
     public void onFaultResult(int arg0, String arg1) {
@@ -78,25 +74,7 @@ public class shopping extends Activity implements DaumEventListener.OnShoppingSe
         ids2=b1_adapter.ids;
 
     }
-/*
-    // 아이템 터치 이벤트
-    private AdapterView.OnItemClickListener onClickListItem = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-
-            nowlisttouch=arg2;
-            naversearchinfo(names.get(nowlisttouch));
-            SearchObject Info2 = items2.get(arg2);
-            Toast toast = Toast.makeText(getApplicationContext(),Info2.getDocid(), Toast.LENGTH_LONG);
-
-            toast.show();
-
-
-
-        }
-    };
-*/
-
+    
     public class ListAdapter extends ArrayAdapter<SearchObject>{
         public ArrayList<SearchObject> items;
         private Context mcontext;
@@ -130,7 +108,5 @@ public class shopping extends Activity implements DaumEventListener.OnShoppingSe
             }
             return v;
         }
-
-
     }
 }
